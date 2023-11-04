@@ -6,4 +6,5 @@ class AppImages {
   static  String watchIconImage = 'assets/image/watch_icon.png';
   static  String timeWatchIconImage = 'assets/image/timewatch_icon.png';
   static  String capIconImage = 'assets/image/cap_icon.png';
+  static  String shareIconImage = 'assets/image/share_icon.png';
 }

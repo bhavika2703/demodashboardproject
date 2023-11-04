@@ -39,6 +39,14 @@ final robotoSemiBold = TextStyle(
 
 );
 
+final robotoDescription= TextStyle(
+  fontFamily: 'Roboto',
+  fontSize: Dimensions.fontSizeRegular,
+  color: AppColor.greyDescription,
+
+);
+
+
 final robotoBold = TextStyle(
   fontFamily: 'Roboto',
   fontWeight: FontWeight.w700,
