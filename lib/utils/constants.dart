@@ -9,4 +9,7 @@ class AppConstants {
   static const String LATEST_MEASURABLES = "Latest Measurables";
   static const String LATEST_SCHEDULES = "Latest Schedules";
   static const String LATEST_VISITS = "Latest Visits";
+  static const String LHP_BUTTON = "LHP";
+  static const String YEARS_BUTTON = "2020";
+  static const String WILLIE_MAYS = "Willie Mays";
 }

@@ -8,6 +8,9 @@ class AppColor {
   static const darkGray=Color(0xff565656);
   static const iconTextGray=Color(0xffD7D7D7);
   static const grayText=Color(0xffBABABA);
-  static const gray168=Color.fromRGBO(168, 166, 166, 1);
+  static const lightGray=Color(0xffEDEDED);
+  static const circleAvatarGray=Color(0xffAAAAAA);
+  static const red=Color(0xffEB5757);
+
 
 }

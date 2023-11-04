@@ -7,7 +7,7 @@ import 'package:projectstruc/utils/dimensions.dart';
 
 final robotoSmall =  TextStyle(
   fontFamily: 'Roboto',
-  fontWeight: FontWeight.w400,
+  fontWeight: FontWeight.w600,
   fontSize: Dimensions.fontSizeExtraSmall,
   color: AppColor.grayText,
 
@@ -28,6 +28,14 @@ final robotoMedium = TextStyle(
   fontWeight: FontWeight.w600,
   fontSize: Dimensions.fontSizeLarge,
   color: AppColor.iconTextGray,
+
+);
+
+final robotoSemiBold = TextStyle(
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w600,
+  fontSize: Dimensions.fontSizeSmall,
+  color: AppColor.lightGray,
 
 );
 

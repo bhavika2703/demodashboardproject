@@ -1,6 +1,6 @@
 class LatestVideoMenu {
   int? id;
-  int? runningTime;
+  String? runningTime;
   String? title;
   String? name;
   String? time;
