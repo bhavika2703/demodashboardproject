@@ -1,20 +1,33 @@
 
 import 'package:flutter/material.dart';
 import 'package:projectstruc/utils/colors.dart';
+import 'package:projectstruc/utils/dimensions.dart';
 
-final robotoRegular = const TextStyle(
+
+
+final robotoSmall =  TextStyle(
   fontFamily: 'Roboto',
   fontWeight: FontWeight.w400,
-  fontSize: 18,
-  color: AppColor.white,
+  fontSize: Dimensions.fontSizeExtraSmall,
+  color: AppColor.grayText,
+
+);
+
+
+
+final robotoRegular =  TextStyle(
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w400,
+  fontSize: Dimensions.fontSizeDefault,
+  color: AppColor.iconTextGray,
 
 );
 
 final robotoMedium = TextStyle(
   fontFamily: 'Roboto',
   fontWeight: FontWeight.w600,
-  fontSize: 24,
-  color: AppColor.white,
+  fontSize: Dimensions.fontSizeLarge,
+  color: AppColor.iconTextGray,
 
 );
 
