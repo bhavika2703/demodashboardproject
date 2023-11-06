@@ -1962,7 +1962,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                               ],
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             width: MediaQuery.of(context).size.width * 0.70,
                             child: Padding(
                               padding: const EdgeInsets.only(
@@ -1980,7 +1980,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                                     child: Text(latestVisitData.gameTitle!,
                                         style: robotoDescription.copyWith(
                                           fontWeight: FontWeight.w500,
-                                          color: AppColor.iconTextGray,
+                                          color: index == 0 ?AppColor.greyDescription :AppColor.iconTextGray,
                                         )),
                                   ),
                                   Container(
