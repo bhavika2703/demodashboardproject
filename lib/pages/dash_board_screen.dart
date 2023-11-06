@@ -1640,13 +1640,13 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
   schedulesView() {
     return SizedBox(
-      height: 480,
+      height: 500,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           SizedBox(
-            height: 460,
+            height: 482,
             child: ListView.builder(
               itemCount: latestScheduleDataList.length,
               physics: const NeverScrollableScrollPhysics(),
@@ -1669,7 +1669,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                       ],
                     ),
                     Container(
-                      height: 125,
+                      height: 145,
                       margin: const EdgeInsets.only(
                           bottom: Dimensions.PADDING_SIZE_SMALL,
                           top: Dimensions.PADDING_SIZE_SMALL,
@@ -1681,7 +1681,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                       child: Row(
                         children: [
                           Container(
-                            width: 70,
+                            width: MediaQuery.of(context).size.width * 0.20,
                             decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(4),
@@ -1729,112 +1729,111 @@ class _DashBoardPageState extends State<DashBoardPage> {
                               left: Dimensions.PADDING_SIZE_EXTRA_SMALL,
                               right: Dimensions.PADDING_SIZE_EXTRA_SMALL,
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                    top: Dimensions.PADDING_SIZE_LARGE,
-                                    bottom: Dimensions.PADDING_SIZE_SMALL,
+                            child: SizedBox(
+                             width: MediaQuery.of(context).size.width * 0.70,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                      top: Dimensions.PADDING_SIZE_LARGE,
+                                      bottom: Dimensions.PADDING_SIZE_SMALL,
+                                    ),
+                                    child: Text(latestScheduleData.gameTitle!,
+                                        style: robotoDescription.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                        )),
                                   ),
-                                  child: Text(latestScheduleData.gameTitle!,
-                                      style: robotoDescription.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                      )),
-                                ),
-                                if (index == 1) ...<Widget>[
+                                  if (index == 1) ...<Widget>[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Field: ',
+                                            style: robotoMedium.copyWith(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 10)),
+                                        Text('Major',
+                                            style: robotoMedium.copyWith(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 11)),
+                                        const SizedBox(width: 100),
+                                        Text('The Diamond Quest',
+                                            style: robotoMedium.copyWith(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 10))
+                                      ],
+                                    ),
+                                  ],
+                                  Container(
+                                      margin: const EdgeInsets.only(
+                                          top:
+                                              Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                                          bottom: Dimensions
+                                              .PADDING_SIZE_EXTRA_SMALL),
+                                      color: AppColor.greyDescription,
+                                      height: 0.5),
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('Field: ',
-                                          style: robotoMedium.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 10)),
-                                      Text('Major',
-                                          style: robotoMedium.copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 11)),
-                                      const SizedBox(width: 100),
-                                      Text('The Diamond Quest',
-                                          style: robotoMedium.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 10))
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(latestScheduleData.gameSubtitle!,
+                                              style: robotoMedium.copyWith(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12)),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text('Philadelphia',
+                                                  style: robotoMedium.copyWith(
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 11)),
+                                              Container(
+                                                  margin: const EdgeInsets.only(
+                                                      right: Dimensions
+                                                          .PADDING_SIZE_OVER_SMALL,
+                                                      left: Dimensions
+                                                          .PADDING_SIZE_OVER_SMALL),
+                                                  color: AppColor.grayText,
+                                                  height: 8.4,
+                                                  width: 1),
+                                              Text('PA',
+                                                  style: robotoMedium.copyWith(
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 11)),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+
+                                      TextButton(
+                                          child: Text(latestScheduleData.type!,
+                                              style:
+                                                  const TextStyle(fontSize: 12)),
+                                          style: ButtonStyle(
+                                              alignment: Alignment.centerRight,
+                                              padding:
+                                                  MaterialStateProperty.all<EdgeInsets>(
+                                                      const EdgeInsets.all(6)),
+                                              foregroundColor:
+                                                  MaterialStateProperty.all<Color>(
+                                                      AppColor.grayText),
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(6.0),
+                                                      side: const BorderSide(color: AppColor.grayText)))),
+                                          onPressed: () => null),
                                     ],
                                   ),
                                 ],
-                                Container(
-                                    margin: const EdgeInsets.only(
-                                        top:
-                                            Dimensions.PADDING_SIZE_EXTRA_SMALL,
-                                        bottom: Dimensions
-                                            .PADDING_SIZE_EXTRA_SMALL),
-                                    color: AppColor.greyDescription,
-                                    width:
-                                        MediaQuery.of(context).size.width / 1.5,
-                                    height: 0.5),
-                                Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(latestScheduleData.gameSubtitle!,
-                                            style: robotoMedium.copyWith(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 12)),
-                                        const SizedBox(
-                                          height: 3,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text('Philadelphia',
-                                                style: robotoMedium.copyWith(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 11)),
-                                            Container(
-                                                margin: const EdgeInsets.only(
-                                                    right: Dimensions
-                                                        .PADDING_SIZE_OVER_SMALL,
-                                                    left: Dimensions
-                                                        .PADDING_SIZE_OVER_SMALL),
-                                                color: AppColor.grayText,
-                                                height: 8.4,
-                                                width: 1),
-                                            Text('PA',
-                                                style: robotoMedium.copyWith(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 11)),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      width: 80,
-                                    ),
-                                    TextButton(
-                                        child: Text(latestScheduleData.type!,
-                                            style:
-                                                const TextStyle(fontSize: 12)),
-                                        style: ButtonStyle(
-                                            alignment: Alignment.centerRight,
-                                            padding:
-                                                MaterialStateProperty.all<EdgeInsets>(
-                                                    const EdgeInsets.all(6)),
-                                            foregroundColor:
-                                                MaterialStateProperty.all<Color>(
-                                                    AppColor.grayText),
-                                            shape: MaterialStateProperty.all<
-                                                    RoundedRectangleBorder>(
-                                                RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(6.0),
-                                                    side: const BorderSide(color: AppColor.grayText)))),
-                                        onPressed: () => null),
-                                  ],
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ],
@@ -1920,7 +1919,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                       child: Row(
                         children: [
                           Container(
-                            width: 70,
+                            width: MediaQuery.of(context).size.width * 0.20,
                             decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(4),
@@ -1990,7 +1989,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                                     width:
                                     MediaQuery.of(context).size.width / 1.4,
                                     height: 0.5),
-                                Container(
+                                SizedBox(
                                   height: 50,
                                   width: 280,
                                   child: Text(latestVisitData.gameSubtitle!,
