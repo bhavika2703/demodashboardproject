@@ -1984,13 +1984,11 @@ class _DashBoardPageState extends State<DashBoardPage> {
                                 ),
                                 Container(
                                     margin: const EdgeInsets.only(
-                                        top:
-                                        Dimensions.PADDING_SIZE_EXTRA_SMALL,
                                         bottom: Dimensions
                                             .PADDING_SIZE_EXTRA_SMALL),
                                     color: AppColor.greyDescription,
                                     width:
-                                    MediaQuery.of(context).size.width / 1.5,
+                                    MediaQuery.of(context).size.width / 1.4,
                                     height: 0.5),
                                 Container(
                                   height: 50,
@@ -1999,7 +1997,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
                                       style: robotoMedium.copyWith(
                                           fontWeight: FontWeight.w400,
                                           color: AppColor.greyDescription,
-                                          fontSize: 12),maxLines: 3,overflow: TextOverflow.ellipsis),
+                                       height: 1.2,
+                                          fontSize: 12),maxLines: 3,overflow: TextOverflow.ellipsis,),
                                 ),
                               ],
                             ),
