@@ -5,6 +5,7 @@ import 'package:projectstruc/services/models/dashboard_header_list_model.dart';
 import 'package:projectstruc/services/models/dashboard_latest_evaluations_model.dart';
 import 'package:projectstruc/services/models/dashboard_latest_schedules_model.dart';
 import 'package:projectstruc/services/models/dashboard_latest_video_model.dart';
+import 'package:projectstruc/services/models/dashboard_latest_visits_model.dart';
 import 'package:projectstruc/utils/colors.dart';
 import 'package:projectstruc/utils/constants.dart';
 import 'package:projectstruc/utils/dimensions.dart';
@@ -25,6 +26,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
   List<LatestEvaluationsModel> latestEvaluationsDataList =
       <LatestEvaluationsModel>[];
   List<LatestScheduleModel> latestScheduleDataList = <LatestScheduleModel>[];
+  List<LatestVisitsModel> latestVisitDataList = <LatestVisitsModel>[];
 
   PageController? controller1;
   PageController? controller2;
@@ -38,6 +40,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     latestVideoList();
     latestEvaluationsList();
     latestScheduleList();
+    latestVisitsList();
   }
 
   List<PersonMenu> whatsNewList() {
@@ -172,6 +175,44 @@ class _DashBoardPageState extends State<DashBoardPage> {
     ];
   }
 
+  List<LatestVisitsModel> latestVisitsList() {
+    return latestVisitDataList = [
+      LatestVisitsModel(
+        id: 1,
+        gameTitle: 'Official Visits',
+        bottomName: 'Jon Mueller',
+        bottomTime: '45 minutes ago',
+        guests: '33 Guests',
+        startingDate: '14 Nov 2023',
+        gameSubtitle: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters',
+        title: 'Willie Mays',
+        image: '',
+      ),
+      LatestVisitsModel(
+        id: 2,
+        gameTitle: 'Unofficial Visits',
+        bottomName: 'Jon Mueller',
+        bottomTime: '45 minutes ago',
+        guests: '33 Guests',
+        startingDate: '14 Nov 2023',
+        gameSubtitle: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters',
+        title: 'Willie Mays',
+        image: '',
+      ),
+      LatestVisitsModel(
+        id: 3,
+        gameTitle: 'Camp Visits',
+        bottomName: 'Jon Mueller',
+        bottomTime: '45 minutes ago',
+        guests: '33 Guests',
+        startingDate: '14 Nov 2023',
+        gameSubtitle: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters',
+        title: 'Willie Mays',
+        image: '',
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -247,6 +288,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     bottom: Dimensions.PADDING_SIZE_SMALL),
                 child: Text(AppConstants.LATEST_VISITS, style: robotoSemiBold),
               ),
+              visitView()
             ],
           ),
         ),
@@ -1830,6 +1872,173 @@ class _DashBoardPageState extends State<DashBoardPage> {
             ),
           ),
           moreEvaluationButtonView('More Schedules'),
+        ],
+      ),
+    );
+  }
+
+  visitView() {
+    return SizedBox(
+      height: 680,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          SizedBox(
+            height: 660,
+            child: ListView.builder(
+              itemCount: latestVisitDataList.length,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                var latestVisitData = latestVisitDataList[index];
+                return Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        willieMaysCircleAvtarView(
+                            title: latestVisitData.title!,
+                            image: latestVisitData.image!),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: Dimensions.PADDING_SIZE_SMALL,
+                              right: Dimensions.PADDING_SIZE_LARGE),
+                          child: lhpButtonView(),
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: 125,
+                      margin: const EdgeInsets.only(
+                          bottom: Dimensions.PADDING_SIZE_SMALL,
+                          top: Dimensions.PADDING_SIZE_SMALL,
+                          right: Dimensions.PADDING_SIZE_SMALL),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: AppColor.cardBgColor,
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 70,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(4),
+                                  bottomLeft: Radius.circular(4)),
+                              color: AppColor.darkGray,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  latestVisitData.startingDate!
+                                      .substring(0, 2),
+                                  style: robotoMedium.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18),
+                                ),
+                                Text(
+                                  latestVisitData.startingDate!.substring(2),
+                                  style: robotoSmall,
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      right: Dimensions.PADDING_SIZE_DEFAULT,
+                                      left: Dimensions.PADDING_SIZE_DEFAULT),
+                                  child: Divider(
+                                      color: AppColor.grayText, thickness: 0.5),
+                                ),
+                                Text(
+                                  latestVisitData.guests!
+                                      .substring(0, 2),
+                                  style: robotoMedium.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18),
+                                ),
+                                Text(
+                                  latestVisitData.guests!.substring(2),
+                                  style: robotoSmall,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                              right: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                    top: Dimensions.PADDING_SIZE_LARGE,
+                                    bottom: Dimensions.PADDING_SIZE_SMALL,
+                                  ),
+                                  child: Text(latestVisitData.gameTitle!,
+                                      style: robotoDescription.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColor.iconTextGray,
+                                      )),
+                                ),
+                                Container(
+                                    margin: const EdgeInsets.only(
+                                        top:
+                                        Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                                        bottom: Dimensions
+                                            .PADDING_SIZE_EXTRA_SMALL),
+                                    color: AppColor.greyDescription,
+                                    width:
+                                    MediaQuery.of(context).size.width / 1.5,
+                                    height: 0.5),
+                                Container(
+                                  height: 50,
+                                  width: 280,
+                                  child: Text(latestVisitData.gameSubtitle!,
+                                      style: robotoMedium.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColor.greyDescription,
+                                          fontSize: 12),maxLines: 3,overflow: TextOverflow.ellipsis),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        capIconAndNameView(
+                            name: latestVisitData.bottomName!,
+                            style: robotoDescription.copyWith(
+                                fontSize: Dimensions.fontSizeExtraSmall),
+                            capIconColor: AppColor.greyDescription),
+                        verticalDivider(),
+                        SizedBox(
+                            height: Dimensions.fontSizeSmall,
+                            width: Dimensions.fontSizeSmall,
+                            child: Image.asset(
+                              AppImages.watchIconImage,
+                              color: AppColor.greyDescription,
+                            )),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: Dimensions.PADDING_SIZE_OVER_SMALL),
+                          child: Text(
+                            latestVisitData.bottomTime!,
+                            style: robotoDescription.copyWith(
+                                fontSize: Dimensions.fontSizeExtraSmall),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+          moreEvaluationButtonView('More Visits'),
         ],
       ),
     );

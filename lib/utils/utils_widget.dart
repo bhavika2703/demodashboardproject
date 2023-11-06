@@ -41,10 +41,10 @@ Container willieMaysCircleAvtarView({
     child: Row(
       children: [
         CircleAvatar(
-          radius: 18,
+          radius: 14,
           backgroundColor: AppColor.circleAvatarGray,
           child: Image.asset(AppImages.gallaryIconImage,
-              fit: BoxFit.cover, height: 14, width: 14),
+              fit: BoxFit.cover, height: 10, width: 10),
         ),
         const SizedBox(
           width: 4,
