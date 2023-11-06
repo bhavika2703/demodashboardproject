@@ -1962,44 +1962,46 @@ class _DashBoardPageState extends State<DashBoardPage> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: Dimensions.PADDING_SIZE_EXTRA_SMALL,
-                              right: Dimensions.PADDING_SIZE_EXTRA_SMALL,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                    top: Dimensions.PADDING_SIZE_LARGE,
-                                    bottom: Dimensions.PADDING_SIZE_SMALL,
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.70,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                                right: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                      top: Dimensions.PADDING_SIZE_LARGE,
+                                      bottom: Dimensions.PADDING_SIZE_SMALL,
+                                    ),
+                                    child: Text(latestVisitData.gameTitle!,
+                                        style: robotoDescription.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColor.iconTextGray,
+                                        )),
                                   ),
-                                  child: Text(latestVisitData.gameTitle!,
-                                      style: robotoDescription.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColor.iconTextGray,
-                                      )),
-                                ),
-                                Container(
-                                    margin: const EdgeInsets.only(
-                                        bottom: Dimensions
-                                            .PADDING_SIZE_EXTRA_SMALL),
-                                    color: AppColor.greyDescription,
-                                    width:
-                                    MediaQuery.of(context).size.width / 1.4,
-                                    height: 0.5),
-                                SizedBox(
-                                  height: 50,
-                                  width: 280,
-                                  child: Text(latestVisitData.gameSubtitle!,
-                                      style: robotoMedium.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          color: AppColor.greyDescription,
-                                       height: 1.2,
-                                          fontSize: 12),maxLines: 3,overflow: TextOverflow.ellipsis,),
-                                ),
-                              ],
+                                  Container(
+                                      margin: const EdgeInsets.only(
+                                          bottom: Dimensions
+                                              .PADDING_SIZE_EXTRA_SMALL),
+                                      color: AppColor.greyDescription,
+                                      width:
+                                      MediaQuery.of(context).size.width / 1.4,
+                                      height: 0.5),
+                                  SizedBox(
+                                    height: 50,
+                                    child: Text(latestVisitData.gameSubtitle!,
+                                        style: robotoMedium.copyWith(
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColor.greyDescription,
+                                         height: 1.2,
+                                            fontSize: 12),maxLines: 3,overflow: TextOverflow.ellipsis,),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
