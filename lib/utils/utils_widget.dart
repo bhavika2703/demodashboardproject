@@ -37,21 +37,21 @@ Container willieMaysCircleAvtarView({
   String? image,
 }) {
   return Container(
-    margin: const EdgeInsets.only(top: Dimensions.PADDING_SIZE_SMALL),
+    margin: const EdgeInsets.only(top: Dimensions.PADDING_SIZE_LARGE,bottom: Dimensions.PADDING_SIZE_SMALL),
     child: Row(
       children: [
         CircleAvatar(
-          radius: 20,
+          radius: 18,
           backgroundColor: AppColor.circleAvatarGray,
           child: Image.asset(AppImages.gallaryIconImage,
-              fit: BoxFit.cover, height: 16, width: 16),
+              fit: BoxFit.cover, height: 14, width: 14),
         ),
         const SizedBox(
           width: 4,
         ),
         Text(title,
             style: robotoSemiBold.copyWith(
-                color: AppColor.grayText, fontSize: 14)),
+                color: AppColor.grayText, fontSize: 13)),
       ],
     ),
   );

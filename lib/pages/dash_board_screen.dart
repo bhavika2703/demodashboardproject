@@ -173,22 +173,21 @@ class _DashBoardPageState extends State<DashBoardPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-           Padding(
+              Padding(
                 padding: const EdgeInsets.only(
                     bottom: Dimensions.PADDING_SIZE_SMALL),
                 child: Text(AppConstants.WHATS_NEW, style: robotoMedium),
               ),
-               whatNewView(),
-              buildDividerView(),
-               Padding(
+              whatNewView(),
+              buildDividerView(0.5),
+              Padding(
                 padding: const EdgeInsets.only(
                     bottom: Dimensions.PADDING_SIZE_SMALL),
-                child: Text(AppConstants.LATEST_VIDEOS,
-                    style: robotoSemiBold),
+                child: Text(AppConstants.LATEST_VIDEOS, style: robotoSemiBold),
               ),
-            latestVideoView(),
-              buildDividerView(),
-               Padding(
+              latestVideoView(),
+              buildDividerView(1.5),
+              Padding(
                 padding: const EdgeInsets.only(
                     bottom: Dimensions.PADDING_SIZE_SMALL),
                 child: Text(AppConstants.LATEST_EVALUATIONS,
@@ -201,25 +200,13 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 child: Text(AppConstants.LATEST_MEASURABLES,
                     style: robotoSemiBold),
               ),
-             latestMeasurablesView(),
-             buildContainerDivider(context),
-             latestMeasurablesView(),
+              latestMeasurablesView(),
+              buildContainerDivider(context),
+              latestMeasurablesView(),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Padding buildDividerView() {
-    return const Padding(
-      padding: EdgeInsets.only(
-        right: Dimensions.PADDING_SIZE_SMALL,
-        left: Dimensions.PADDING_SIZE_SMALL,
-        bottom: Dimensions.PADDING_SIZE_LARGE,
-        //top: Dimensions.PADDING_SIZE_LARGE,
-      ),
-      child: Divider(color: AppColor.darkGray, thickness: 1.5),
     );
   }
 
@@ -235,8 +222,10 @@ class _DashBoardPageState extends State<DashBoardPage> {
           return Row(
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                padding: const EdgeInsets.only(
+                    right: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                    bottom: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                    top: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                 child: Column(
                   children: [
                     CircleAvatar(
@@ -400,7 +389,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
   latestEvaluationsView() {
     return SizedBox(
       height: 1000,
-      width:double.infinity,
+      width: double.infinity,
       child: PageView.builder(
         itemCount: latestEvaluationsDataList.length,
         scrollDirection: Axis.horizontal,
@@ -410,13 +399,11 @@ class _DashBoardPageState extends State<DashBoardPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               evaluationsPageIndicatorView(context, latestEvaluationData),
-              buildContainerDivider(context),
+              buildDividerView(0.5),
               PageIndicatorContainer(
-                child: Container(
-                  height: 420,
+                child: SizedBox(
+                  height: 430,
                   width: MediaQuery.of(context).size.width,
-                  margin:
-                  const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
                   child: PageView(
                     children: <Widget>[
                       firstMatchScoreView(
@@ -448,32 +435,32 @@ class _DashBoardPageState extends State<DashBoardPage> {
   }
 
   Widget latestMeasurablesView() {
-    return Container(
-          height: 460,
-          width:double.infinity,
-          child: PageView.builder(
-              itemCount: latestEvaluationsDataList.length,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context,index) {
-                var latestEvaluationData = latestEvaluationsDataList[index];
-              return PageIndicatorContainer(
-                child: PageView(
-                  children: <Widget>[
-                   measurablesFirstIndicator(latestEvaluationData: latestEvaluationData) ,
-                    measurablesSecondIndicator(latestEvaluationData: latestEvaluationData) ,
-                  ],
-                  controller: controller1,
-                ),
-                length: 2,
-                indicatorSpace: 5.0,
-                shape: IndicatorShape.circle(size: 6),
-                indicatorColor: AppColor.greyDescription,
-                indicatorSelectorColor: AppColor.white,
-              );
-            }
-          ),
-        );
-
+    return SizedBox(
+      height: 490,
+      width: double.infinity,
+      child: PageView.builder(
+          itemCount: latestEvaluationsDataList.length,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            var latestEvaluationData = latestEvaluationsDataList[index];
+            return PageIndicatorContainer(
+              child: PageView(
+                children: <Widget>[
+                  measurablesFirstIndicator(
+                      latestEvaluationData: latestEvaluationData),
+                  measurablesSecondIndicator(
+                      latestEvaluationData: latestEvaluationData),
+                ],
+                controller: controller1,
+              ),
+              length: 2,
+              indicatorSpace: 5.0,
+              shape: IndicatorShape.circle(size: 6),
+              indicatorColor: AppColor.greyDescription,
+              indicatorSelectorColor: AppColor.white,
+            );
+          }),
+    );
   }
 
   Container buildContainerDivider(
@@ -498,42 +485,47 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
   Widget matchScoreBottomView(LatestEvaluationsModel latestEvaluationData) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        capIconAndNameView(
-            name: latestEvaluationData.name!,
-            style: robotoDescription.copyWith(
-                fontSize: Dimensions.fontSizeExtraSmall),
-            capIconColor: AppColor.greyDescription),
-        verticalDivider(),
-        SizedBox(
-            height: Dimensions.fontSizeSmall,
-            width: Dimensions.fontSizeSmall,
-            child: Image.asset(
-              AppImages.watchIconImage,
-              color: AppColor.greyDescription,
-            )),
-        Padding(
-          padding:
-              const EdgeInsets.only(left: Dimensions.PADDING_SIZE_OVER_SMALL),
-          child: Text(
-            latestEvaluationData.time!,
-            style: robotoDescription.copyWith(
-                fontSize: Dimensions.fontSizeExtraSmall),
-          ),
-        ),
-        verticalDivider(),
-        Padding(
-          padding:
-              const EdgeInsets.only(left: Dimensions.PADDING_SIZE_OVER_SMALL),
-          child: Text(
-            latestEvaluationData.evaluation!,
-            style: robotoDescription.copyWith(
-                fontSize: Dimensions.fontSizeExtraSmall),
-          ),
-        ),
-        const SizedBox(
-          width: 24,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            capIconAndNameView(
+                name: latestEvaluationData.name!,
+                style: robotoDescription.copyWith(
+                    fontSize: Dimensions.fontSizeExtraSmall),
+                capIconColor: AppColor.greyDescription),
+            verticalDivider(),
+            SizedBox(
+                height: Dimensions.fontSizeSmall,
+                width: Dimensions.fontSizeSmall,
+                child: Image.asset(
+                  AppImages.watchIconImage,
+                  color: AppColor.greyDescription,
+                )),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
+              child: Text(
+                latestEvaluationData.time!,
+                style: robotoDescription.copyWith(
+                    fontSize: Dimensions.fontSizeExtraSmall),
+              ),
+            ),
+            verticalDivider(),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
+              child: Text(
+                latestEvaluationData.evaluation!,
+                style: robotoDescription.copyWith(
+                    fontSize: Dimensions.fontSizeExtraSmall),
+              ),
+            ),
+            const SizedBox(
+              width: 24,
+            ),
+          ],
         ),
         Padding(
           padding:
@@ -569,7 +561,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
             )),
         Padding(
           padding:
-          const EdgeInsets.only(left: Dimensions.PADDING_SIZE_OVER_SMALL),
+              const EdgeInsets.only(left: Dimensions.PADDING_SIZE_OVER_SMALL),
           child: Text(
             latestEvaluationData.time!,
             style: robotoDescription.copyWith(
@@ -579,7 +571,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
         verticalDivider(),
         Padding(
           padding:
-          const EdgeInsets.only(left: Dimensions.PADDING_SIZE_OVER_SMALL),
+              const EdgeInsets.only(left: Dimensions.PADDING_SIZE_OVER_SMALL),
           child: Text(
             latestEvaluationData.evaluation!,
             style: robotoDescription.copyWith(
@@ -592,9 +584,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
   Widget evaluationsPageIndicatorView(
       BuildContext context, LatestEvaluationsModel latestEvaluationData) {
-    return Container(
-      height: 195,
-      margin: const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
+    return SizedBox(
+      height: 220,
       width: MediaQuery.of(context).size.width,
       child: PageIndicatorContainer(
         child: PageView(
@@ -660,7 +651,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text( name,
+          Text(name,
               style: robotoDescription.copyWith(
                   color: AppColor.blue, fontSize: 14)),
           const Icon(Icons.arrow_forward_ios_rounded,
@@ -997,6 +988,18 @@ class _DashBoardPageState extends State<DashBoardPage> {
     );
   }
 
+  Padding buildDividerView(thickness) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        right: Dimensions.PADDING_SIZE_SMALL,
+        left: Dimensions.PADDING_SIZE_SMALL,
+        bottom: Dimensions.PADDING_SIZE_SMALL,
+        //top: Dimensions.PADDING_SIZE_LARGE,
+      ),
+      child: Divider(color: AppColor.darkGray, thickness: thickness),
+    );
+  }
+
   Widget lastEvaluationOne(
       {required LatestEvaluationsModel latestEvaluationData}) {
     return Column(
@@ -1089,7 +1092,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
                 margin:
-                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
+                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL),
                 child: lhpButtonView()),
           ],
         ),
@@ -1103,12 +1106,12 @@ class _DashBoardPageState extends State<DashBoardPage> {
           margin: const EdgeInsets.only(
               bottom: Dimensions.PADDING_SIZE_SMALL,
               top: Dimensions.PADDING_SIZE_SMALL,
-              right: Dimensions.PADDING_SIZE_EXTRA_LARGE),
-          padding:const EdgeInsets.only(
+              right: Dimensions.PADDING_SIZE_SMALL),
+          padding: const EdgeInsets.only(
               bottom: Dimensions.PADDING_SIZE_SMALL,
               left: Dimensions.PADDING_SIZE_SMALL,
               top: Dimensions.PADDING_SIZE_SMALL,
-              right: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+              right: Dimensions.PADDING_SIZE_SMALL),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1117,16 +1120,17 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Fastball',style: robotoSemiBold),
+                      child: Text('Fastball', style: robotoSemiBold),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Row(
                           children: [
-                            Text('Avg.',style: robotoSmall),
+                            Text('Avg.', style: robotoSmall),
                             Container(
-                              width: 100,height: 10,
+                                width: 100,
+                                height: 10,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -1134,17 +1138,21 @@ class _DashBoardPageState extends State<DashBoardPage> {
                                     value: latestEvaluationData.average,
                                     color: AppColor.gray,
                                     valueColor:
-                                        const AlwaysStoppedAnimation<Color>(AppColor.green))),
-                            Text(latestEvaluationData.average.toString(),style: robotoSmall),
-
+                                        const AlwaysStoppedAnimation<Color>(
+                                            AppColor.green))),
+                            Text(latestEvaluationData.average.toString(),
+                                style: robotoSmall),
                           ],
                         ),
-                        const SizedBox(height: 2,),
+                        const SizedBox(
+                          height: 2,
+                        ),
                         Row(
                           children: [
-                            Text('Max.',style: robotoSmall),
+                            Text('Max.', style: robotoSmall),
                             Container(
-                                width: 100,height: 10,
+                                width: 100,
+                                height: 10,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -1152,9 +1160,10 @@ class _DashBoardPageState extends State<DashBoardPage> {
                                     value: latestEvaluationData.max,
                                     color: AppColor.gray,
                                     valueColor:
-                                    const AlwaysStoppedAnimation<Color>(AppColor.blue))),
-                            Text(latestEvaluationData.max.toString(),style: robotoSmall),
-
+                                        const AlwaysStoppedAnimation<Color>(
+                                            AppColor.blue))),
+                            Text(latestEvaluationData.max.toString(),
+                                style: robotoSmall),
                           ],
                         ),
                       ],
@@ -1162,8 +1171,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   ],
                 ),
               ),
-              buildContainerDivider(context)
-              ,
+              buildContainerDivider(context),
             ],
           ),
         ),
@@ -1184,8 +1192,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 padding: const EdgeInsets.only(
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
-                margin:
-                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
                 child: lhpButtonView()),
           ],
         ),
@@ -1198,7 +1204,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
             margin: const EdgeInsets.only(
                 bottom: Dimensions.PADDING_SIZE_SMALL,
                 top: Dimensions.PADDING_SIZE_SMALL,
-                right: Dimensions.PADDING_SIZE_EXTRA_LARGE)),
+                right: Dimensions.PADDING_SIZE_SMALL)),
       ],
     );
   }
@@ -1216,8 +1222,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 padding: const EdgeInsets.only(
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
-                margin:
-                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
                 child: lhpButtonView()),
           ],
         ),
@@ -1230,7 +1234,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
             margin: const EdgeInsets.only(
                 bottom: Dimensions.PADDING_SIZE_SMALL,
                 top: Dimensions.PADDING_SIZE_SMALL,
-                right: Dimensions.PADDING_SIZE_EXTRA_LARGE)),
+                right: Dimensions.PADDING_SIZE_SMALL)),
       ],
     );
   }
@@ -1248,8 +1252,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 padding: const EdgeInsets.only(
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
-                margin:
-                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
                 child: lhpButtonView()),
           ],
         ),
@@ -1263,12 +1265,13 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 bottom: Dimensions.PADDING_SIZE_SMALL,
                 top: Dimensions.PADDING_SIZE_SMALL,
                 //left: Dimensions.PADDING_SIZE_EXTRA_LARGE,
-                right: Dimensions.PADDING_SIZE_EXTRA_LARGE)),
+                right: Dimensions.PADDING_SIZE_SMALL)),
       ],
     );
   }
 
-  measurablesFirstIndicator({required LatestEvaluationsModel latestEvaluationData}) {
+  measurablesFirstIndicator(
+      {required LatestEvaluationsModel latestEvaluationData}) {
     return Column(
       children: [
         Row(
@@ -1282,16 +1285,18 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
                 margin:
-                const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
+                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
                 child: lhpButtonView()),
           ],
         ),
-        const SizedBox( height: 8),
-        Container(height: 350,
+        const SizedBox(height: 8),
+        Container(
+          height: 350,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: AppColor.darkGray,
-          ),),
+          ),
+        ),
         const SizedBox(height: 4),
         measurablesBottomView(latestEvaluationData),
         moreEvaluationButtonView('More Measurables')
@@ -1299,7 +1304,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
     );
   }
 
-  measurablesSecondIndicator({required LatestEvaluationsModel latestEvaluationData}) {
+  measurablesSecondIndicator(
+      {required LatestEvaluationsModel latestEvaluationData}) {
     return Column(
       children: [
         Row(
@@ -1313,16 +1319,18 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
                 margin:
-                const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
+                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
                 child: lhpButtonView()),
           ],
         ),
-        const SizedBox( height: 8),
-        Container(height: 350,
+        const SizedBox(height: 8),
+        Container(
+          height: 350,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: AppColor.darkGray,
-          ),),
+          ),
+        ),
         const SizedBox(height: 4),
         measurablesBottomView(latestEvaluationData),
       ],

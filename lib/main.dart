@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          scaffoldBackgroundColor: AppColor.black0001,
+          scaffoldBackgroundColor: Color.fromRGBO(34,34,34,0),
           appBarTheme: AppBarTheme(backgroundColor: AppColor.black0001)),
       home: DashBoardPage(),
     );
