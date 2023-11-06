@@ -3,6 +3,7 @@ import 'package:page_indicator/page_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:projectstruc/services/models/dashboard_header_list_model.dart';
 import 'package:projectstruc/services/models/dashboard_latest_evaluations_model.dart';
+import 'package:projectstruc/services/models/dashboard_latest_schedules_model.dart';
 import 'package:projectstruc/services/models/dashboard_latest_video_model.dart';
 import 'package:projectstruc/utils/colors.dart';
 import 'package:projectstruc/utils/constants.dart';
@@ -23,6 +24,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
   List<LatestVideoMenu> latestVideoDataList = <LatestVideoMenu>[];
   List<LatestEvaluationsModel> latestEvaluationsDataList =
       <LatestEvaluationsModel>[];
+  List<LatestScheduleModel> latestScheduleDataList = <LatestScheduleModel>[];
 
   PageController? controller1;
   PageController? controller2;
@@ -35,6 +37,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     whatsNewList();
     latestVideoList();
     latestEvaluationsList();
+    latestScheduleList();
   }
 
   List<PersonMenu> whatsNewList() {
@@ -140,6 +143,35 @@ class _DashBoardPageState extends State<DashBoardPage> {
     ];
   }
 
+  List<LatestScheduleModel> latestScheduleList() {
+    return latestScheduleDataList = [
+      LatestScheduleModel(
+        id: 1,
+        title: 'Willie Mays',
+        bottomName: 'Jon Mueller',
+        bottomTime: '45 minutes ago',
+        endingDate: '05 Dec 2023',
+        startingDate: '14 Nov 2023',
+        gameSubtitle: 'Oakland Coliseum',
+        gameTitle: '2023 Summer Tournaments By Region',
+        type: 'Tournament',
+        image: '',
+      ),
+      LatestScheduleModel(
+        id: 2,
+        title: 'Willie Mays',
+        bottomName: 'Jon Mueller',
+        bottomTime: '45 minutes ago',
+        endingDate: '05 Dec 2023',
+        startingDate: '14 Nov 2023',
+        gameSubtitle: 'Oakland Coliseum',
+        gameTitle: '2023 Summer Tournaments By Region',
+        type: 'Tournament',
+        image: '',
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -205,10 +237,17 @@ class _DashBoardPageState extends State<DashBoardPage> {
               Padding(
                 padding: const EdgeInsets.only(
                     bottom: Dimensions.PADDING_SIZE_SMALL),
-                child: Text(AppConstants.LATEST_SCHEDULES,
-                    style: robotoSemiBold),
+                child:
+                    Text(AppConstants.LATEST_SCHEDULES, style: robotoSemiBold),
               ),
               schedulesView(),
+              buildDividerView(1.5),
+              Padding(
+                padding: const EdgeInsets.only(
+                    bottom: Dimensions.PADDING_SIZE_SMALL),
+                child:
+                Text(AppConstants.LATEST_VISITS, style: robotoSemiBold),
+              ),
             ],
           ),
         ),
@@ -1221,7 +1260,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
   }) {
     return Row(
       children: [
-        Container(
+        SizedBox(
             width: width ?? null,
             child: Text(title,
                 style: robotoSmall.copyWith(color: AppColor.grayText))),
@@ -1559,23 +1598,213 @@ class _DashBoardPageState extends State<DashBoardPage> {
   }
 
   schedulesView() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            willieMaysCircleAvtarView(
-                title: 'title',
-                image: 'image'),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: Dimensions.PADDING_SIZE_SMALL,
-                  right: Dimensions.PADDING_SIZE_LARGE),
-              child: lhpButtonView(),
-            )
-          ],
-        ),
-      ],
+    return SizedBox(
+      height: 480,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          SizedBox(
+            height: 460,
+            child: ListView.builder(
+              itemCount: latestScheduleDataList.length,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                var latestScheduleData = latestScheduleDataList[index];
+                return Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        willieMaysCircleAvtarView(
+                            title: latestScheduleData.title!,
+                            image: latestScheduleData.image!),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: Dimensions.PADDING_SIZE_SMALL,
+                              right: Dimensions.PADDING_SIZE_LARGE),
+                          child: lhpButtonView(),
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: 125,
+                      margin: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: AppColor.darkGray,
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 65,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(4),
+                                  bottomLeft: Radius.circular(4)),
+                              color: AppColor.greyDescription,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  latestScheduleData.startingDate!.substring(0, 2),
+                                  style: robotoMedium.copyWith(
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                Text(
+                                  latestScheduleData.startingDate!.substring(2),
+                                  style: robotoSmall,
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      right: Dimensions.PADDING_SIZE_DEFAULT,
+                                      left: Dimensions.PADDING_SIZE_DEFAULT),
+                                  child: Divider(
+                                      color: AppColor.grayText, thickness: 0.5),
+                                ),
+                                Text(
+                                  latestScheduleData.endingDate!.substring(0, 2),
+                                  style: robotoMedium.copyWith(
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                Text(
+                                  latestScheduleData.endingDate!.substring(2),
+                                  style: robotoSmall,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                              right: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                    top: Dimensions.PADDING_SIZE_LARGE,
+                                    bottom: Dimensions.PADDING_SIZE_LARGE,
+                                  ),
+                                  child: Text(latestScheduleData.gameTitle!,
+                                      style: robotoDescription.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      )),
+                                ),
+                                if(latestScheduleDataList[index] == 1)...<Widget>[
+                                Row(children: [
+                                  Text('Field : Major',style:robotoMedium.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 11) ),
+                                ]),
+                                ],
+                                Container(
+                                    margin: const EdgeInsets.only(
+                                        top: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                                        bottom: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                                    color: AppColor.greyDescription,
+                                    width: MediaQuery.of(context).size.width / 1.5,
+                                    height: 0.5),
+                                Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(latestScheduleData.gameSubtitle!,
+                                            style: robotoMedium.copyWith(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12)),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text('Philadelphia',
+                                                style: robotoMedium.copyWith(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 11)),
+                                            Container(
+                                                margin: const EdgeInsets.only(
+                                                    right: Dimensions
+                                                        .PADDING_SIZE_OVER_SMALL,
+                                                    left: Dimensions
+                                                        .PADDING_SIZE_OVER_SMALL),
+                                                color: AppColor.grayText,
+                                                height: 8.4,
+                                                width: 1),
+                                            Text('PA',
+                                                style: robotoMedium.copyWith(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 11)),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      width: 80,
+                                    ),
+                                    TextButton(
+                                        child: Text(latestScheduleData.type!,
+                                            style: const TextStyle(fontSize: 12)),
+                                        style: ButtonStyle(
+                                            alignment: Alignment.centerRight,
+                                            padding: MaterialStateProperty.all<EdgeInsets>(
+                                                const EdgeInsets.all(6)),
+                                            foregroundColor: MaterialStateProperty.all<Color>(
+                                                AppColor.grayText),
+                                            shape: MaterialStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(6.0),
+                                                    side: const BorderSide(
+                                                        color: AppColor.grayText)))),
+                                        onPressed: () => null),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        capIconAndNameView(
+                            name: latestScheduleData.bottomName!,
+                            style: robotoDescription.copyWith(
+                                fontSize: Dimensions.fontSizeExtraSmall),
+                            capIconColor: AppColor.greyDescription),
+                        verticalDivider(),
+                        SizedBox(
+                            height: Dimensions.fontSizeSmall,
+                            width: Dimensions.fontSizeSmall,
+                            child: Image.asset(
+                              AppImages.watchIconImage,
+                              color: AppColor.greyDescription,
+                            )),
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(left: Dimensions.PADDING_SIZE_OVER_SMALL),
+                          child: Text(
+                            latestScheduleData.bottomTime!,
+                            style: robotoDescription.copyWith(
+                                fontSize: Dimensions.fontSizeExtraSmall),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+          moreEvaluationButtonView('More Schedules'),
+        ],
+      ),
     );
   }
 }

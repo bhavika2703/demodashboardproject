@@ -17,6 +17,7 @@ class AppColor {
   static const cardBgColor=Color(0xff333333);
   static const cardTextColor=Color(0xffcccccc);
   static const orange=Color(0xffF2994A);
+  static const halfCardGrey=Color(0xffAAAAAA);
 
 
 }
