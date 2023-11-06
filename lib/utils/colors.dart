@@ -14,6 +14,9 @@ class AppColor {
   static const greyDescription=Color(0xff999999);
   static const blue=Color(0xff56CCF2);
   static const green=Color(0xff6FCF97);
+  static const cardBgColor=Color(0xff333333);
+  static const cardTextColor=Color(0xffcccccc);
+  static const orange=Color(0xffF2994A);
 
 
 }

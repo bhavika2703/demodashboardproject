@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_indicator/page_indicator.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:projectstruc/services/models/dashboard_header_list_model.dart';
 import 'package:projectstruc/services/models/dashboard_latest_evaluations_model.dart';
 import 'package:projectstruc/services/models/dashboard_latest_video_model.dart';
@@ -200,9 +201,14 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 child: Text(AppConstants.LATEST_MEASURABLES,
                     style: robotoSemiBold),
               ),
-              latestMeasurablesView(),
-              buildContainerDivider(context),
-              latestMeasurablesView(),
+              measurablesView(),
+              Padding(
+                padding: const EdgeInsets.only(
+                    bottom: Dimensions.PADDING_SIZE_SMALL),
+                child: Text(AppConstants.LATEST_SCHEDULES,
+                    style: robotoSemiBold),
+              ),
+              schedulesView(),
             ],
           ),
         ),
@@ -388,7 +394,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
   latestEvaluationsView() {
     return SizedBox(
-      height: 1000,
+      height: 982,
       width: double.infinity,
       child: PageView.builder(
         itemCount: latestEvaluationsDataList.length,
@@ -400,32 +406,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
             children: [
               evaluationsPageIndicatorView(context, latestEvaluationData),
               buildDividerView(0.5),
-              PageIndicatorContainer(
-                child: SizedBox(
-                  height: 430,
-                  width: MediaQuery.of(context).size.width,
-                  child: PageView(
-                    children: <Widget>[
-                      firstMatchScoreView(
-                          latestEvaluationData: latestEvaluationData),
-                      secondMatchScoreView(
-                          latestEvaluationData: latestEvaluationData),
-                      thirdMatchScoreView(
-                          latestEvaluationData: latestEvaluationData),
-                      fourthMatchScoreView(
-                          latestEvaluationData: latestEvaluationData),
-                    ],
-                    controller: controller2,
-                  ),
-                ),
-                length: 4,
-                indicatorSpace: 5.0,
-                shape: IndicatorShape.circle(size: 6),
-                indicatorColor: AppColor.greyDescription,
-                indicatorSelectorColor: AppColor.white,
-              ),
+              evaluationBowlerIndicatorView(context, latestEvaluationData),
               matchScoreBottomView(latestEvaluationData),
-              buildContainerDivider(context),
+              buildDividerView(0.5),
               lastEvaluationsPageIndicatorView(context, latestEvaluationData),
             ],
           );
@@ -434,16 +417,43 @@ class _DashBoardPageState extends State<DashBoardPage> {
     );
   }
 
-  Widget latestMeasurablesView() {
+  Widget evaluationBowlerIndicatorView(
+      BuildContext context, LatestEvaluationsModel latestEvaluationData) {
+    return PageIndicatorContainer(
+      child: SizedBox(
+        height: 430,
+        width: MediaQuery.of(context).size.width,
+        child: PageView(
+          children: <Widget>[
+            firstMatchScoreView(latestEvaluationData: latestEvaluationData),
+            secondMatchScoreView(latestEvaluationData: latestEvaluationData),
+            thirdMatchScoreView(latestEvaluationData: latestEvaluationData),
+            fourthMatchScoreView(latestEvaluationData: latestEvaluationData),
+          ],
+          controller: controller2,
+        ),
+      ),
+      length: 4,
+      indicatorSpace: 5.0,
+      shape: IndicatorShape.circle(size: 5),
+      indicatorColor: AppColor.gray,
+      indicatorSelectorColor: AppColor.white,
+    );
+  }
+
+  Widget latestMeasurablesFirstIndicatorView(
+      LatestEvaluationsModel latestEvaluationData) {
     return SizedBox(
-      height: 490,
+      height: 480,
       width: double.infinity,
-      child: PageView.builder(
-          itemCount: latestEvaluationsDataList.length,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            var latestEvaluationData = latestEvaluationsDataList[index];
-            return PageIndicatorContainer(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 450,
+            width: MediaQuery.of(context).size.width,
+            child: PageIndicatorContainer(
               child: PageView(
                 children: <Widget>[
                   measurablesFirstIndicator(
@@ -458,8 +468,54 @@ class _DashBoardPageState extends State<DashBoardPage> {
               shape: IndicatorShape.circle(size: 6),
               indicatorColor: AppColor.greyDescription,
               indicatorSelectorColor: AppColor.white,
-            );
-          }),
+            ),
+          ),
+          bottomNameTimeView(latestEvaluationData),
+        ],
+      ),
+    );
+  }
+
+  Widget latestMeasurablesSecondIndicatorView(
+      LatestEvaluationsModel latestEvaluationData) {
+    return SizedBox(
+      height: 540,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 450,
+            width: MediaQuery.of(context).size.width,
+            child: PageIndicatorContainer(
+              child: PageView(
+                children: <Widget>[
+                  measurablesFirstIndicator(
+                      latestEvaluationData: latestEvaluationData),
+                  measurablesSecondIndicator(
+                      latestEvaluationData: latestEvaluationData),
+                ],
+                controller: controller1,
+              ),
+              length: 2,
+              indicatorSpace: 5.0,
+              shape: IndicatorShape.circle(size: 6),
+              indicatorColor: AppColor.greyDescription,
+              indicatorSelectorColor: AppColor.white,
+            ),
+          ),
+          bottomNameTimeView(latestEvaluationData),
+          const SizedBox(
+            height: 8,
+          ),
+          moreEvaluationButtonView('More Evaluations'),
+          const SizedBox(
+            height: 8,
+          ),
+          buildDividerView(1.5),
+        ],
+      ),
     );
   }
 
@@ -484,61 +540,64 @@ class _DashBoardPageState extends State<DashBoardPage> {
   }
 
   Widget matchScoreBottomView(LatestEvaluationsModel latestEvaluationData) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            capIconAndNameView(
-                name: latestEvaluationData.name!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-                capIconColor: AppColor.greyDescription),
-            verticalDivider(),
-            SizedBox(
-                height: Dimensions.fontSizeSmall,
-                width: Dimensions.fontSizeSmall,
-                child: Image.asset(
-                  AppImages.watchIconImage,
-                  color: AppColor.greyDescription,
-                )),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.time!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_SMALL),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              capIconAndNameView(
+                  name: latestEvaluationData.name!,
+                  style: robotoDescription.copyWith(
+                      fontSize: Dimensions.fontSizeExtraSmall),
+                  capIconColor: AppColor.greyDescription),
+              verticalDivider(),
+              SizedBox(
+                  height: Dimensions.fontSizeSmall,
+                  width: Dimensions.fontSizeSmall,
+                  child: Image.asset(
+                    AppImages.watchIconImage,
+                    color: AppColor.greyDescription,
+                  )),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: Dimensions.PADDING_SIZE_OVER_SMALL),
+                child: Text(
+                  latestEvaluationData.time!,
+                  style: robotoDescription.copyWith(
+                      fontSize: Dimensions.fontSizeExtraSmall),
+                ),
               ),
-            ),
-            verticalDivider(),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.evaluation!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
+              verticalDivider(),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: Dimensions.PADDING_SIZE_OVER_SMALL),
+                child: Text(
+                  latestEvaluationData.evaluation!,
+                  style: robotoDescription.copyWith(
+                      fontSize: Dimensions.fontSizeExtraSmall),
+                ),
               ),
-            ),
-            const SizedBox(
-              width: 24,
-            ),
-          ],
-        ),
-        Padding(
-          padding:
-              const EdgeInsets.only(right: Dimensions.PADDING_SIZE_EXTRA_LARGE),
-          child: Image.asset(
-            AppImages.shareIconImage,
-            height: 18,
-            width: 18,
-            color: AppColor.grayText,
-            alignment: Alignment.centerRight,
+              const SizedBox(
+                width: 24,
+              ),
+            ],
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(
+                right: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+            child: Image.asset(
+              AppImages.shareIconImage,
+              height: 20,
+              width: 20,
+              color: AppColor.grayText,
+              alignment: Alignment.centerRight,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -607,16 +666,15 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
   Widget lastEvaluationsPageIndicatorView(
       BuildContext context, LatestEvaluationsModel latestEvaluationData) {
-    return Container(
-      height: 255,
-      margin: const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
+    return SizedBox(
+      height: 250,
       width: MediaQuery.of(context).size.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
-            height: 195,
+            height: 200,
             width: MediaQuery.of(context).size.width,
             child: PageIndicatorContainer(
               child: PageView(
@@ -636,7 +694,10 @@ class _DashBoardPageState extends State<DashBoardPage> {
             ),
           ),
           moreEvaluationButtonView('More Evaluations'),
-          buildContainerDivider(context),
+          const SizedBox(
+            height: 2,
+          ),
+          buildDividerView(1.5),
         ],
       ),
     );
@@ -644,7 +705,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
   Container moreEvaluationButtonView(String name) {
     return Container(
-      margin: const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
       padding: const EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -653,9 +713,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
         children: [
           Text(name,
               style: robotoDescription.copyWith(
-                  color: AppColor.blue, fontSize: 14)),
+                  color: AppColor.blue, fontSize: 12)),
           const Icon(Icons.arrow_forward_ios_rounded,
-              color: AppColor.blue, size: 16),
+              color: AppColor.blue, size: 15),
         ],
       ),
     );
@@ -686,42 +746,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
           child:
               Text(latestEvaluationData.description!, style: robotoDescription),
         ),
-        Row(
-          children: [
-            capIconAndNameView(
-                name: latestEvaluationData.name!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-                capIconColor: AppColor.greyDescription),
-            verticalDivider(),
-            SizedBox(
-                height: Dimensions.fontSizeSmall,
-                width: Dimensions.fontSizeSmall,
-                child: Image.asset(
-                  AppImages.watchIconImage,
-                  color: AppColor.greyDescription,
-                )),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.time!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-              ),
-            ),
-            verticalDivider(),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.evaluation!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-              ),
-            ),
-          ],
-        ),
+        bottomNameTimeView(latestEvaluationData),
       ],
     );
   }
@@ -740,8 +765,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 padding: const EdgeInsets.only(
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
-                margin:
-                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
                 child: lhpButtonView())
           ],
         ),
@@ -749,45 +772,12 @@ class _DashBoardPageState extends State<DashBoardPage> {
           padding: const EdgeInsets.only(
               top: Dimensions.PADDING_SIZE_SMALL,
               bottom: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-          child:
-              Text(latestEvaluationData.description!, style: robotoDescription),
+          child: Text(latestEvaluationData.description!,
+              style: robotoDescription,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis),
         ),
-        Row(
-          children: [
-            capIconAndNameView(
-                name: latestEvaluationData.name!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-                capIconColor: AppColor.greyDescription),
-            verticalDivider(),
-            SizedBox(
-                height: Dimensions.fontSizeSmall,
-                width: Dimensions.fontSizeSmall,
-                child: Image.asset(
-                  AppImages.watchIconImage,
-                  color: AppColor.greyDescription,
-                )),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.time!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-              ),
-            ),
-            verticalDivider(),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.evaluation!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-              ),
-            ),
-          ],
-        ),
+        bottomNameTimeView(latestEvaluationData),
       ],
     );
   }
@@ -816,42 +806,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
           child:
               Text(latestEvaluationData.description!, style: robotoDescription),
         ),
-        Row(
-          children: [
-            capIconAndNameView(
-                name: latestEvaluationData.name!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-                capIconColor: AppColor.greyDescription),
-            verticalDivider(),
-            SizedBox(
-                height: Dimensions.fontSizeSmall,
-                width: Dimensions.fontSizeSmall,
-                child: Image.asset(
-                  AppImages.watchIconImage,
-                  color: AppColor.greyDescription,
-                )),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.time!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-              ),
-            ),
-            verticalDivider(),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.evaluation!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-              ),
-            ),
-          ],
-        ),
+        bottomNameTimeView(latestEvaluationData),
       ],
     );
   }
@@ -870,8 +825,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 padding: const EdgeInsets.only(
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
-                margin:
-                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
                 child: lhpButtonView())
           ],
         ),
@@ -879,45 +832,12 @@ class _DashBoardPageState extends State<DashBoardPage> {
           padding: const EdgeInsets.only(
               top: Dimensions.PADDING_SIZE_SMALL,
               bottom: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-          child:
-              Text(latestEvaluationData.description!, style: robotoDescription),
+          child: Text(latestEvaluationData.description!,
+              style: robotoDescription,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis),
         ),
-        Row(
-          children: [
-            capIconAndNameView(
-                name: latestEvaluationData.name!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-                capIconColor: AppColor.greyDescription),
-            verticalDivider(),
-            SizedBox(
-                height: Dimensions.fontSizeSmall,
-                width: Dimensions.fontSizeSmall,
-                child: Image.asset(
-                  AppImages.watchIconImage,
-                  color: AppColor.greyDescription,
-                )),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.time!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-              ),
-            ),
-            verticalDivider(),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.evaluation!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-              ),
-            ),
-          ],
-        ),
+        bottomNameTimeView(latestEvaluationData),
       ],
     );
   }
@@ -948,42 +868,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
               maxLines: 4,
               overflow: TextOverflow.ellipsis),
         ),
-        Row(
-          children: [
-            capIconAndNameView(
-                name: latestEvaluationData.name!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-                capIconColor: AppColor.greyDescription),
-            verticalDivider(),
-            SizedBox(
-                height: Dimensions.fontSizeSmall,
-                width: Dimensions.fontSizeSmall,
-                child: Image.asset(
-                  AppImages.watchIconImage,
-                  color: AppColor.greyDescription,
-                )),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.time!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-              ),
-            ),
-            verticalDivider(),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.evaluation!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-              ),
-            ),
-          ],
-        ),
+        bottomNameTimeView(latestEvaluationData),
       ],
     );
   }
@@ -1014,8 +899,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 padding: const EdgeInsets.only(
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
-                margin:
-                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
                 child: lhpButtonView())
           ],
         ),
@@ -1028,41 +911,45 @@ class _DashBoardPageState extends State<DashBoardPage> {
               maxLines: 4,
               overflow: TextOverflow.ellipsis),
         ),
-        Row(
-          children: [
-            capIconAndNameView(
-                name: latestEvaluationData.name!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-                capIconColor: AppColor.greyDescription),
-            verticalDivider(),
-            SizedBox(
-                height: Dimensions.fontSizeSmall,
-                width: Dimensions.fontSizeSmall,
-                child: Image.asset(
-                  AppImages.watchIconImage,
-                  color: AppColor.greyDescription,
-                )),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.time!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-              ),
-            ),
-            verticalDivider(),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: Dimensions.PADDING_SIZE_OVER_SMALL),
-              child: Text(
-                latestEvaluationData.evaluation!,
-                style: robotoDescription.copyWith(
-                    fontSize: Dimensions.fontSizeExtraSmall),
-              ),
-            ),
-          ],
+        bottomNameTimeView(latestEvaluationData),
+      ],
+    );
+  }
+
+  Row bottomNameTimeView(LatestEvaluationsModel latestEvaluationData) {
+    return Row(
+      children: [
+        capIconAndNameView(
+            name: latestEvaluationData.name!,
+            style: robotoDescription.copyWith(
+                fontSize: Dimensions.fontSizeExtraSmall),
+            capIconColor: AppColor.greyDescription),
+        verticalDivider(),
+        SizedBox(
+            height: Dimensions.fontSizeSmall,
+            width: Dimensions.fontSizeSmall,
+            child: Image.asset(
+              AppImages.watchIconImage,
+              color: AppColor.greyDescription,
+            )),
+        Padding(
+          padding:
+              const EdgeInsets.only(left: Dimensions.PADDING_SIZE_OVER_SMALL),
+          child: Text(
+            latestEvaluationData.time!,
+            style: robotoDescription.copyWith(
+                fontSize: Dimensions.fontSizeExtraSmall),
+          ),
+        ),
+        verticalDivider(),
+        Padding(
+          padding:
+              const EdgeInsets.only(left: Dimensions.PADDING_SIZE_OVER_SMALL),
+          child: Text(
+            latestEvaluationData.evaluation!,
+            style: robotoDescription.copyWith(
+                fontSize: Dimensions.fontSizeExtraSmall),
+          ),
         ),
       ],
     );
@@ -1097,11 +984,11 @@ class _DashBoardPageState extends State<DashBoardPage> {
           ],
         ),
         Container(
-          height: 340,
+          height: 320,
           width: double.maxFinite,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: AppColor.darkGray,
+            color: AppColor.cardBgColor,
           ),
           margin: const EdgeInsets.only(
               bottom: Dimensions.PADDING_SIZE_SMALL,
@@ -1113,68 +1000,241 @@ class _DashBoardPageState extends State<DashBoardPage> {
               top: Dimensions.PADDING_SIZE_SMALL,
               right: Dimensions.PADDING_SIZE_SMALL),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Fastball', style: robotoSemiBold),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Text('Avg.', style: robotoSmall),
-                            Container(
-                                width: 100,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: LinearProgressIndicator(
-                                    value: latestEvaluationData.average,
-                                    color: AppColor.gray,
-                                    valueColor:
-                                        const AlwaysStoppedAnimation<Color>(
-                                            AppColor.green))),
-                            Text(latestEvaluationData.average.toString(),
-                                style: robotoSmall),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 2,
-                        ),
-                        Row(
-                          children: [
-                            Text('Max.', style: robotoSmall),
-                            Container(
-                                width: 100,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: LinearProgressIndicator(
-                                    value: latestEvaluationData.max,
-                                    color: AppColor.gray,
-                                    valueColor:
-                                        const AlwaysStoppedAnimation<Color>(
-                                            AppColor.blue))),
-                            Text(latestEvaluationData.max.toString(),
-                                style: robotoSmall),
-                          ],
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              buildContainerDivider(context),
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Fastball'),
+              buildDividerView(0.5),
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData, title: 'Slider'),
+              buildDividerView(0.5),
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Curveball'),
+              buildDividerView(0.5),
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Changeup'),
+              buildDividerView(0.5),
+              otherIndicatorView(),
             ],
           ),
         ),
+      ],
+    );
+  }
+
+  Row otherIndicatorView() {
+    return Row(
+      children: [
+        Container(
+          width: 95,
+          padding: const EdgeInsets.only(
+              right: Dimensions.PADDING_SIZE_LARGE,
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL),
+          child: Text('Other',
+              style: robotoSemiBold.copyWith(
+                  color: AppColor.cardTextColor, fontSize: 14)),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            linearPercentIndicatorView(
+              title: 'Avg.',
+              percent: 0.0,
+              percentName: '0.0 m/h',
+              bgColor: AppColor.darkGray,
+              progressColor: AppColor.green,
+            ),
+            const SizedBox(
+              height: 1,
+            ),
+            linearPercentIndicatorView(
+              title: 'Max.',
+              percent: 0.0,
+              percentName: '0.0 m/h',
+              bgColor: AppColor.darkGray,
+              progressColor: AppColor.blue,
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  Row bowlerIndicatorView(
+      {required LatestEvaluationsModel latestEvaluationData,
+      required String title}) {
+    return Row(
+      children: [
+        Container(
+          width: 95,
+          padding: const EdgeInsets.only(
+              right: Dimensions.PADDING_SIZE_LARGE,
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL),
+          child: Text(title,
+              style: robotoSemiBold.copyWith(
+                  color: AppColor.cardTextColor, fontSize: 14)),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            linearPercentIndicatorView(
+              title: 'Avg.',
+              percent: latestEvaluationData.average! / 100,
+              percentName: '${latestEvaluationData.average.toString()} m/h',
+              bgColor: AppColor.darkGray,
+              progressColor: AppColor.green,
+            ),
+            const SizedBox(
+              height: 1,
+            ),
+            linearPercentIndicatorView(
+              title: 'Max.',
+              percent: latestEvaluationData.max! / 100,
+              percentName: '${latestEvaluationData.max.toString()} m/h',
+              bgColor: AppColor.darkGray,
+              progressColor: AppColor.blue,
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  Row measurablesIndicatorView(
+      {required LatestEvaluationsModel latestEvaluationData,
+      required String title}) {
+    return Row(
+      children: [
+        Container(
+          width: 95,
+          padding: const EdgeInsets.only(
+              right: Dimensions.PADDING_SIZE_LARGE,
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL),
+          child: Text(title,
+              style: robotoSemiBold.copyWith(
+                  color: AppColor.cardTextColor, fontSize: 14)),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            linearPercentIndicatorView(
+                title: 'Avg.',
+                percent: latestEvaluationData.average! / 100,
+                percentName: '${latestEvaluationData.average.toString()} m/h',
+                bgColor: AppColor.darkGray,
+                progressColor: AppColor.green,
+                indicatorWidth: MediaQuery.of(context).size.width / 2.8,
+                width: 50),
+            const SizedBox(
+              height: 1,
+            ),
+            linearPercentIndicatorView(
+                title: 'Max.',
+                percent: latestEvaluationData.max! / 100,
+                percentName: '${latestEvaluationData.max.toString()} m/h',
+                bgColor: AppColor.darkGray,
+                progressColor: AppColor.blue,
+                indicatorWidth: MediaQuery.of(context).size.width / 2.8,
+                width: 50),
+            const SizedBox(
+              height: 1,
+            ),
+            linearPercentIndicatorView(
+                title: 'Spin Avg.',
+                percent: latestEvaluationData.max! / 100,
+                percentName: '${latestEvaluationData.spinAvg.toString()} m/h',
+                bgColor: AppColor.darkGray,
+                progressColor: AppColor.orange,
+                indicatorWidth: MediaQuery.of(context).size.width / 2.8,
+                width: 50),
+          ],
+        )
+      ],
+    );
+  }
+
+  Row measurablesOtherIndicatorView() {
+    return Row(
+      children: [
+        Container(
+          width: 95,
+          padding: const EdgeInsets.only(
+              right: Dimensions.PADDING_SIZE_LARGE,
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL),
+          child: Text('Other',
+              style: robotoSemiBold.copyWith(
+                  color: AppColor.cardTextColor, fontSize: 14)),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            linearPercentIndicatorView(
+                title: 'Avg.',
+                percent: 0.0,
+                percentName: '0.0 m/h',
+                bgColor: AppColor.darkGray,
+                progressColor: AppColor.green,
+                indicatorWidth: MediaQuery.of(context).size.width / 2.8,
+                width: 50),
+            const SizedBox(
+              height: 1,
+            ),
+            linearPercentIndicatorView(
+                title: 'Max.',
+                percent: 0.0,
+                percentName: '0.0 m/h',
+                bgColor: AppColor.darkGray,
+                progressColor: AppColor.blue,
+                indicatorWidth: MediaQuery.of(context).size.width / 2.8,
+                width: 50),
+            const SizedBox(
+              height: 1,
+            ),
+            linearPercentIndicatorView(
+                title: 'Spin Avg.',
+                percent: 0.0,
+                percentName: '0.0 m/h',
+                bgColor: AppColor.darkGray,
+                progressColor: AppColor.orange,
+                indicatorWidth: MediaQuery.of(context).size.width / 2.8,
+                width: 50),
+          ],
+        )
+      ],
+    );
+  }
+
+  Row linearPercentIndicatorView({
+    required String title,
+    required double percent,
+    required String percentName,
+    required Color bgColor,
+    required Color progressColor,
+    double? indicatorWidth,
+    double? width,
+  }) {
+    return Row(
+      children: [
+        Container(
+            width: width ?? null,
+            child: Text(title,
+                style: robotoSmall.copyWith(color: AppColor.grayText))),
+        LinearPercentIndicator(
+          width: indicatorWidth ?? MediaQuery.of(context).size.width / 2.14,
+          lineHeight: 6.0,
+          percent: percent,
+          backgroundColor: bgColor,
+          progressColor: progressColor,
+          barRadius: const Radius.circular(4),
+        ),
+        Text(percentName,
+            style: robotoSmall.copyWith(color: AppColor.grayText)),
       ],
     );
   }
@@ -1192,19 +1252,48 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 padding: const EdgeInsets.only(
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
+                margin:
+                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL),
                 child: lhpButtonView()),
           ],
         ),
         Container(
-            height: 340,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: AppColor.darkGray,
-            ),
-            margin: const EdgeInsets.only(
-                bottom: Dimensions.PADDING_SIZE_SMALL,
-                top: Dimensions.PADDING_SIZE_SMALL,
-                right: Dimensions.PADDING_SIZE_SMALL)),
+          height: 320,
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: AppColor.cardBgColor,
+          ),
+          margin: const EdgeInsets.only(
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL,
+              right: Dimensions.PADDING_SIZE_SMALL),
+          padding: const EdgeInsets.only(
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              left: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL,
+              right: Dimensions.PADDING_SIZE_SMALL),
+          child: Column(
+            children: [
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Fastball'),
+              buildDividerView(0.5),
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData, title: 'Slider'),
+              buildDividerView(0.5),
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Curveball'),
+              buildDividerView(0.5),
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Changeup'),
+              buildDividerView(0.5),
+              otherIndicatorView(),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -1222,19 +1311,48 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 padding: const EdgeInsets.only(
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
+                margin:
+                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL),
                 child: lhpButtonView()),
           ],
         ),
         Container(
-            height: 340,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: AppColor.darkGray,
-            ),
-            margin: const EdgeInsets.only(
-                bottom: Dimensions.PADDING_SIZE_SMALL,
-                top: Dimensions.PADDING_SIZE_SMALL,
-                right: Dimensions.PADDING_SIZE_SMALL)),
+          height: 320,
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: AppColor.cardBgColor,
+          ),
+          margin: const EdgeInsets.only(
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL,
+              right: Dimensions.PADDING_SIZE_SMALL),
+          padding: const EdgeInsets.only(
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              left: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL,
+              right: Dimensions.PADDING_SIZE_SMALL),
+          child: Column(
+            children: [
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Fastball'),
+              buildDividerView(0.5),
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData, title: 'Slider'),
+              buildDividerView(0.5),
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Curveball'),
+              buildDividerView(0.5),
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Changeup'),
+              buildDividerView(0.5),
+              otherIndicatorView(),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -1252,20 +1370,48 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 padding: const EdgeInsets.only(
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
+                margin:
+                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL),
                 child: lhpButtonView()),
           ],
         ),
         Container(
-            height: 340,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: AppColor.darkGray,
-            ),
-            margin: const EdgeInsets.only(
-                bottom: Dimensions.PADDING_SIZE_SMALL,
-                top: Dimensions.PADDING_SIZE_SMALL,
-                //left: Dimensions.PADDING_SIZE_EXTRA_LARGE,
-                right: Dimensions.PADDING_SIZE_SMALL)),
+          height: 320,
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: AppColor.cardBgColor,
+          ),
+          margin: const EdgeInsets.only(
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL,
+              right: Dimensions.PADDING_SIZE_SMALL),
+          padding: const EdgeInsets.only(
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              left: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL,
+              right: Dimensions.PADDING_SIZE_SMALL),
+          child: Column(
+            children: [
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Fastball'),
+              buildDividerView(0.5),
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData, title: 'Slider'),
+              buildDividerView(0.5),
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Curveball'),
+              buildDividerView(0.5),
+              bowlerIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Changeup'),
+              buildDividerView(0.5),
+              otherIndicatorView(),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -1285,21 +1431,47 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
                 margin:
-                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
+                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL),
                 child: lhpButtonView()),
           ],
         ),
-        const SizedBox(height: 8),
         Container(
           height: 350,
+          width: double.maxFinite,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: AppColor.darkGray,
+            color: AppColor.cardBgColor,
+          ),
+          margin: const EdgeInsets.only(
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL,
+              right: Dimensions.PADDING_SIZE_SMALL),
+          padding: const EdgeInsets.only(
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              left: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL,
+              right: Dimensions.PADDING_SIZE_SMALL),
+          child: Column(
+            children: [
+              measurablesIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Fastball'),
+              buildDividerView(0.5),
+              measurablesIndicatorView(
+                  latestEvaluationData: latestEvaluationData, title: 'Slider'),
+              buildDividerView(0.5),
+              measurablesIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Curveball'),
+              buildDividerView(0.5),
+              measurablesIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Changeup'),
+              buildDividerView(0.5),
+              measurablesOtherIndicatorView(),
+            ],
           ),
         ),
-        const SizedBox(height: 4),
-        measurablesBottomView(latestEvaluationData),
-        moreEvaluationButtonView('More Measurables')
       ],
     );
   }
@@ -1319,20 +1491,90 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     top: Dimensions.PADDING_SIZE_SMALL,
                     right: Dimensions.PADDING_SIZE_SMALL),
                 margin:
-                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
+                    const EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL),
                 child: lhpButtonView()),
           ],
         ),
-        const SizedBox(height: 8),
         Container(
           height: 350,
+          width: double.maxFinite,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: AppColor.darkGray,
+            color: AppColor.cardBgColor,
+          ),
+          margin: const EdgeInsets.only(
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL,
+              right: Dimensions.PADDING_SIZE_SMALL),
+          padding: const EdgeInsets.only(
+              bottom: Dimensions.PADDING_SIZE_SMALL,
+              left: Dimensions.PADDING_SIZE_SMALL,
+              top: Dimensions.PADDING_SIZE_SMALL,
+              right: Dimensions.PADDING_SIZE_SMALL),
+          child: Column(
+            children: [
+              measurablesIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Fastball'),
+              buildDividerView(0.5),
+              measurablesIndicatorView(
+                  latestEvaluationData: latestEvaluationData, title: 'Slider'),
+              buildDividerView(0.5),
+              measurablesIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Curveball'),
+              buildDividerView(0.5),
+              measurablesIndicatorView(
+                  latestEvaluationData: latestEvaluationData,
+                  title: 'Changeup'),
+              buildDividerView(0.5),
+              measurablesOtherIndicatorView(),
+            ],
           ),
         ),
-        const SizedBox(height: 4),
-        measurablesBottomView(latestEvaluationData),
+      ],
+    );
+  }
+
+  measurablesView() {
+    return SizedBox(
+      height: 1050,
+      width: double.infinity,
+      child: PageView.builder(
+        itemCount: latestEvaluationsDataList.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          var latestEvaluationData = latestEvaluationsDataList[index];
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              latestMeasurablesFirstIndicatorView(latestEvaluationData),
+              buildDividerView(0.5),
+              latestMeasurablesSecondIndicatorView(latestEvaluationData),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  schedulesView() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            willieMaysCircleAvtarView(
+                title: 'title',
+                image: 'image'),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: Dimensions.PADDING_SIZE_SMALL,
+                  right: Dimensions.PADDING_SIZE_LARGE),
+              child: lhpButtonView(),
+            )
+          ],
+        ),
       ],
     );
   }
