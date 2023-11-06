@@ -245,8 +245,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
               Padding(
                 padding: const EdgeInsets.only(
                     bottom: Dimensions.PADDING_SIZE_SMALL),
-                child:
-                Text(AppConstants.LATEST_VISITS, style: robotoSemiBold),
+                child: Text(AppConstants.LATEST_VISITS, style: robotoSemiBold),
               ),
             ],
           ),
@@ -1629,29 +1628,34 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     ),
                     Container(
                       height: 125,
-                      margin: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                      margin: const EdgeInsets.only(
+                          bottom: Dimensions.PADDING_SIZE_SMALL,
+                          top: Dimensions.PADDING_SIZE_SMALL,
+                          right: Dimensions.PADDING_SIZE_SMALL),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
-                        color: AppColor.darkGray,
+                        color: AppColor.cardBgColor,
                       ),
                       child: Row(
                         children: [
                           Container(
-                            width: 65,
+                            width: 70,
                             decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(4),
                                   bottomLeft: Radius.circular(4)),
-                              color: AppColor.greyDescription,
+                              color: AppColor.darkGray,
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  latestScheduleData.startingDate!.substring(0, 2),
+                                  latestScheduleData.startingDate!
+                                      .substring(0, 2),
                                   style: robotoMedium.copyWith(
-                                      fontWeight: FontWeight.w400),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18),
                                 ),
                                 Text(
                                   latestScheduleData.startingDate!.substring(2),
@@ -1665,9 +1669,11 @@ class _DashBoardPageState extends State<DashBoardPage> {
                                       color: AppColor.grayText, thickness: 0.5),
                                 ),
                                 Text(
-                                  latestScheduleData.endingDate!.substring(0, 2),
+                                  latestScheduleData.endingDate!
+                                      .substring(0, 2),
                                   style: robotoMedium.copyWith(
-                                      fontWeight: FontWeight.w400),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18),
                                 ),
                                 Text(
                                   latestScheduleData.endingDate!.substring(2),
@@ -1683,35 +1689,54 @@ class _DashBoardPageState extends State<DashBoardPage> {
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
                                   padding: const EdgeInsets.only(
                                     top: Dimensions.PADDING_SIZE_LARGE,
-                                    bottom: Dimensions.PADDING_SIZE_LARGE,
+                                    bottom: Dimensions.PADDING_SIZE_SMALL,
                                   ),
                                   child: Text(latestScheduleData.gameTitle!,
                                       style: robotoDescription.copyWith(
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
-                                if(latestScheduleDataList[index] == 1)...<Widget>[
-                                Row(children: [
-                                  Text('Field : Major',style:robotoMedium.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 11) ),
-                                ]),
+                                if (index == 1) ...<Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Field: ',
+                                          style: robotoMedium.copyWith(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10)),
+                                      Text('Major',
+                                          style: robotoMedium.copyWith(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 11)),
+                                      const SizedBox(width: 100),
+                                      Text('The Diamond Quest',
+                                          style: robotoMedium.copyWith(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10))
+                                    ],
+                                  ),
                                 ],
                                 Container(
                                     margin: const EdgeInsets.only(
-                                        top: Dimensions.PADDING_SIZE_EXTRA_SMALL,
-                                        bottom: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                                        top:
+                                            Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                                        bottom: Dimensions
+                                            .PADDING_SIZE_EXTRA_SMALL),
                                     color: AppColor.greyDescription,
-                                    width: MediaQuery.of(context).size.width / 1.5,
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.5,
                                     height: 0.5),
                                 Row(
                                   children: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(latestScheduleData.gameSubtitle!,
                                             style: robotoMedium.copyWith(
@@ -1748,20 +1773,22 @@ class _DashBoardPageState extends State<DashBoardPage> {
                                     ),
                                     TextButton(
                                         child: Text(latestScheduleData.type!,
-                                            style: const TextStyle(fontSize: 12)),
+                                            style:
+                                                const TextStyle(fontSize: 12)),
                                         style: ButtonStyle(
                                             alignment: Alignment.centerRight,
-                                            padding: MaterialStateProperty.all<EdgeInsets>(
-                                                const EdgeInsets.all(6)),
-                                            foregroundColor: MaterialStateProperty.all<Color>(
-                                                AppColor.grayText),
+                                            padding:
+                                                MaterialStateProperty.all<EdgeInsets>(
+                                                    const EdgeInsets.all(6)),
+                                            foregroundColor:
+                                                MaterialStateProperty.all<Color>(
+                                                    AppColor.grayText),
                                             shape: MaterialStateProperty.all<
                                                     RoundedRectangleBorder>(
                                                 RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(6.0),
-                                                    side: const BorderSide(
-                                                        color: AppColor.grayText)))),
+                                                    side: const BorderSide(color: AppColor.grayText)))),
                                         onPressed: () => null),
                                   ],
                                 ),
@@ -1787,8 +1814,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
                               color: AppColor.greyDescription,
                             )),
                         Padding(
-                          padding:
-                          const EdgeInsets.only(left: Dimensions.PADDING_SIZE_OVER_SMALL),
+                          padding: const EdgeInsets.only(
+                              left: Dimensions.PADDING_SIZE_OVER_SMALL),
                           child: Text(
                             latestScheduleData.bottomTime!,
                             style: robotoDescription.copyWith(
